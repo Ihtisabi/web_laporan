@@ -135,4 +135,298 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Pagination functionality
+    const tableRows = document.querySelectorAll('.data-table-container tbody tr:not(.action-row)');
+    const rowsPerPage = 10; // Maximum 10 items per page
+    let currentPage = 1;
+    const totalPages = Math.ceil(tableRows.length / rowsPerPage);
+    
+    // Pagination buttons
+    const prevButton = document.querySelector('.pagination-btn:first-child');
+    const nextButton = document.querySelector('.pagination-btn:last-child');
+    const pageNumbersContainer = document.getElementById('page-numbers');
+    
+    // Function to display rows for current page
+    function displayRows() {
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        
+        // Hide all rows first
+        tableRows.forEach((row, index) => {
+            row.style.display = 'none';
+            
+            // If there's an action row after this row, hide it too
+            const nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('action-row')) {
+                nextRow.style.display = 'none';
+            }
+        });
+        
+        // Show only rows for current page
+        for (let i = startIndex; i < endIndex && i < tableRows.length; i++) {
+            tableRows[i].style.display = 'table-row';
+            
+            // If there's an action row after this row, show it too if necessary
+            const nextRow = tableRows[i].nextElementSibling;
+            if (nextRow && nextRow.classList.contains('action-row')) {
+                nextRow.style.display = window.innerWidth <= 992 ? 'table-row' : 'none';
+            }
+        }
+        
+        // Update page number display
+        updatePageNumbers();
+        
+        // Disable/enable prev/next buttons
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+        
+        // Visual indication for disabled buttons
+        prevButton.style.opacity = currentPage === 1 ? '0.5' : '1';
+        nextButton.style.opacity = currentPage === totalPages ? '0.5' : '1';
+    }
+    
+    // Update page numbers display
+    function updatePageNumbers() {
+        if (pageNumbersContainer) {
+            pageNumbersContainer.innerHTML = '';
+            
+            // Create page number buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'pagination-btn page-number';
+                if (i === currentPage) {
+                    pageBtn.classList.add('active');
+                }
+                pageBtn.textContent = i;
+                
+                pageBtn.addEventListener('click', function() {
+                    currentPage = i;
+                    displayRows();
+                });
+                
+                pageNumbersContainer.appendChild(pageBtn);
+            }
+        }
+        
+        // Update page info text
+        const pageInfo = document.getElementById('page-info');
+        if (pageInfo) {
+            pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+        }
+    }
+    
+    // Event listeners for pagination buttons
+    if (prevButton) {
+        prevButton.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayRows();
+            }
+        });
+    }
+    
+    if (nextButton) {
+        nextButton.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayRows();
+            }
+        });
+    }
+    
+    // Initialize pagination
+    displayRows();
+});
+
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Modal elements
+    const detailModal = document.getElementById('detailModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const closeDetailBtn = document.getElementById('closeDetailBtn');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    
+    // Get all detail, accept and delete buttons
+    const detailButtons = document.querySelectorAll('.btn-detail');
+    const acceptButtons = document.querySelectorAll('.btn-accept');
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    
+    // Function to open detail modal
+    function openDetailModal(rowData) {
+        // Populate modal with data
+        document.getElementById('nama').value = rowData.nama;
+        document.getElementById('tanggal').value = rowData.tanggal;
+        document.getElementById('kategori').value = rowData.kategori;
+        document.querySelector('.desc-container p').textContent = rowData.deskripsi;
+        
+        // Show the modal
+        detailModal.style.display = 'block';
+        
+        // Prevent body scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Function to close detail modal
+    function closeDetailModal() {
+        detailModal.style.display = 'none';
+        
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Function to open delete confirmation modal
+    function openDeleteModal(rowId) {
+        // Store the row ID for deletion (could be used later with AJAX)
+        deleteModal.dataset.rowId = rowId;
+        
+        // Show the modal
+        deleteModal.style.display = 'block';
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Function to close delete modal
+    function closeDeleteModal() {
+        deleteModal.style.display = 'none';
+        
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Handle status update (accept button)
+    function handleStatusUpdate(rowElement) {
+        // Get the row data
+        const rowId = rowElement.querySelector('td:first-child').textContent;
+        const statusButton = rowElement.querySelector('.btn-accept');
+        
+        // Toggle button text and classes
+        if (statusButton.textContent === "Menunggu") {
+            statusButton.textContent = "Diterima";
+            statusButton.classList.remove('btn-waiting');
+            statusButton.classList.add('btn-accepted');
+        } else {
+            statusButton.textContent = "Menunggu";
+            statusButton.classList.remove('btn-accepted');
+            statusButton.classList.add('btn-waiting');
+        }
+        
+        // Here you would typically make an AJAX call to update the server
+        console.log(`Status updated for row ${rowId} to ${statusButton.textContent}`);
+        
+        // You can add logic to send the status update to the server
+        // Example: sendStatusUpdate(rowId, statusButton.textContent === "Diterima");
+    }
+    
+    // Handle row deletion
+    function handleDelete(rowId) {
+        // Find the row with the matching ID
+        const rows = document.querySelectorAll('tbody tr');
+        let rowToDelete = null;
+        
+        rows.forEach(row => {
+            const id = row.querySelector('td:first-child').textContent;
+            if (id === rowId) {
+                rowToDelete = row;
+            }
+        });
+        
+        if (rowToDelete) {
+            // Check if there's an action row that follows
+            const nextRow = rowToDelete.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('action-row')) {
+                nextRow.remove();
+            }
+            
+            // Remove the row
+            rowToDelete.remove();
+            
+            // Here you would typically make an AJAX call to delete from the server
+            console.log(`Row ${rowId} deleted`);
+            
+            // Update pagination if needed
+            if (typeof displayRows === 'function') {
+                displayRows();
+            }
+        }
+        
+        // Close the modal
+        closeDeleteModal();
+    }
+    
+    // Add event listeners to all detail buttons
+    detailButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the parent row
+            const row = this.closest('tr');
+            
+            // Extract data from the row
+            const rowData = {
+                nama: row.querySelector('td:nth-child(2)').textContent,
+                kategori: row.querySelector('td:nth-child(3)').textContent,
+                deskripsi: row.querySelector('td:nth-child(4)').textContent,
+                tanggal: row.querySelector('td:nth-child(5)').textContent
+            };
+            
+            // Open the modal with this data
+            openDetailModal(rowData);
+        });
+    });
+    
+    // Add event listeners to all accept buttons
+    acceptButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            handleStatusUpdate(row);
+        });
+    });
+    
+    // Add event listeners to all delete buttons
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const rowId = row.querySelector('td:first-child').textContent;
+            openDeleteModal(rowId);
+        });
+    });
+    
+    // Close modals with close buttons
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeDetailModal);
+    }
+    
+    if (closeDetailBtn) {
+        closeDetailBtn.addEventListener('click', closeDetailModal);
+    }
+    
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+    }
+    
+    // Handle delete confirmation
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function() {
+            const rowId = deleteModal.dataset.rowId;
+            handleDelete(rowId);
+        });
+    }
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === detailModal) {
+            closeDetailModal();
+        } else if (event.target === deleteModal) {
+            closeDeleteModal();
+        }
+    });
+    
+    // Handle escape key to close modals
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeDetailModal();
+            closeDeleteModal();
+        }
+    });
 });
