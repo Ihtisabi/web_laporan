@@ -135,15 +135,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    if (menuToggle && sidebar && sidebarOverlay) {
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-        });
-        
-        sidebarOverlay.addEventListener('click', function() {
-            sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-        });
-    }
 });
