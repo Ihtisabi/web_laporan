@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="profile">
+            <div class="profile-text">Super Admin</div>
+            <div class="profile-img">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay"></div>
+    
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-book" style="font-size: 70px;"></i>
+                </div>
+            </div>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="menu-text">Dashboard</div>
+            </a>
+            
+            <a href="listLaporan.html" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="menu-text">Laporan</div>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="menu-text">Log Out</div>
+            </a>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Stats Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-card-number">100</div>
+                    <div class="stat-card-text">Laporan Masuk</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="stat-card-number">50</div>
+                    <div class="stat-card-text">Laporan Belum Ditanggapi</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="stat-card-number">50</div>
+                    <div class="stat-card-text">Laporan Diterima</div>
+                </div>
+            </div>
+            
+            <!-- Data Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <div>10 laporan terbaru</div>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Pelapor</th>
+                            <th>Kategori Laporan</th>
+                            <th>Deskripsi</th>
+                            <th>Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Joni</td>
+                            <td>Fasilitas</td>
+                            <td>meja nya rusak</td>
+                            <td>07/31/1969</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                            <td>Cell Data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

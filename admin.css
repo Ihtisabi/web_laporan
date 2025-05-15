@@ -1,0 +1,559 @@
+/* Admin Dashboard CSS - Fixed Version */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Header Styles */
+.header {
+    background-color: #4DA7DE;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Ensure Super Admin text is always visible */
+.profile-text {
+    margin-right: 10px;
+    font-weight: bold;
+    color: white;
+    display: block !important; /* Force display */
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    z-index: 110; /* Ensure it's clickable */
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.profile-text {
+    margin-right: 10px;
+    font-weight: bold;
+    color: white;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    flex: 1;
+    position: relative;
+    min-height: calc(100vh - 70px); /* Account for header height */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 228px;
+    background: linear-gradient(180deg, #4DA7DE 0%, #87CEFA 100%);
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    z-index: 90;
+    min-height: calc(100vh - 70px); /* Full viewport height minus header */
+    position: sticky;
+    top: 70px; /* Below header */
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 30px;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.2); /* Better visibility */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-icon {
+    margin-right: 15px;
+    font-size: 22px;
+}
+
+.menu-text {
+    font-size: 16px;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    min-height: calc(100vh - 70px); /* Ensure full height */
+}
+
+/* Stats Cards */
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 200px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 0 10px 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stat-card-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.stat-card-number {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stat-card-text {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Data Table Styles */
+.data-table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure full width */
+    max-width: 100%; /* Prevent overflow */
+    overflow-x: visible; /* Disable horizontal scroll */
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed; /* Fixed table layout to prevent horizontal scroll */
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #266D9C;
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    white-space: normal; /* Allow text to wrap */
+    overflow-wrap: break-word; /* Break long words if needed */
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    white-space: normal; /* Allow text to wrap */
+    overflow-wrap: break-word; /* Break long words if needed */
+    max-width: 200px; /* Limit width of cells */
+}
+
+/* Specific column widths */
+th:nth-child(1), td:nth-child(1) { width: 5%; } /* No column */
+th:nth-child(2), td:nth-child(2) { width: 15%; } /* Nama Pelapor */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Kategori */
+th:nth-child(4), td:nth-child(4) { width: 35%; } /* Deskripsi */
+th:nth-child(5), td:nth-child(5) { width: 10%; } /* Tanggal */
+th:nth-child(6), td:nth-child(6) { width: 20%; } /* Aksi */
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Filter Styles */
+.filter-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    width: 100%; /* Ensure full width */
+}
+
+.filter-label {
+    margin-right: 10px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 15px;
+    min-width: 150px;
+    margin-bottom: 10px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    margin-bottom: 5px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-detail {
+    background-color: #3498db;
+}
+
+.btn-accept {
+    background-color: #2ecc71;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: right; /* Center the buttons */
+    padding: 15px 0px;
+    flex-wrap: wrap;
+    width: 100%; /* Ensure full width */
+    gap: 5px; /* Ensure buttons are close to each other */
+}
+
+.pagination-btn {
+    padding: 8px 15px;
+    background-color: #7FC4F8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5px; /* Even spacing between buttons */
+}
+
+.pagination-btn:hover {
+    background-color: #6BB0E1;
+}
+
+/* Overlay for mobile sidebar */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 80;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh !important; /* Force full height */
+        width: 250px; /* Slightly wider for better visibility */
+        transform: translateX(-100%);
+        z-index: 100; /* Above header */
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+    
+    .header {
+        width: 100vw; /* Full width on mobile */
+        padding: 15px;
+    }
+    
+    .stats-container {
+        flex-direction: column;
+    }
+    
+    .stat-card {
+        margin: 0 0 15px 0;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .filter-select {
+        width: 100%;
+        margin-right: 0;
+    }
+    
+    .main-content {
+        padding: 15px;
+        width: 100%;
+    }
+    
+    .pagination {
+        justify-content: space-between; /* Better spacing on mobile */
+    }
+    
+    /* Ensure Previous/Next buttons are aligned correctly */
+    .pagination-btn:first-child {
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profile-text {
+        display: block !important; /* Force display on small screens */
+        font-size: 14px; /* Slightly smaller text */
+    }
+    
+    .pagination {
+        justify-content: right; /* Center pagination on mobile */
+    }
+    
+    .pagination-btn {
+        margin: 0 5px;
+        min-width: 100px; /* Ensure buttons are wide enough */
+        text-align: center;
+    }
+    
+    /* Adjust table for small screens */
+    .data-table-container {
+        overflow-x: visible; /* No horizontal scroll */
+    }
+
+    /* Make columns stack better on small screens */
+    table {
+        table-layout: fixed;
+    }
+    
+    td, th {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+    
+    /* Adjusted cell sizes for mobile */
+    th:nth-child(1), td:nth-child(1) { width: 8%; } /* No column */
+    th:nth-child(2), td:nth-child(2) { width: 20%; } /* Nama Pelapor */
+    th:nth-child(3), td:nth-child(3) { width: 20%; } /* Kategori */
+    th:nth-child(4), td:nth-child(4) { width: 22%; } /* Deskripsi */
+    th:nth-child(5), td:nth-child(5) { width: 15%; } /* Tanggal */
+    th:nth-child(6), td:nth-child(6) { width: 15%; } /* Aksi */
+    
+    /* Adjust action buttons for small screens */
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 3px;
+        padding: 5px;
+    }
+}
+
+/* Define a breakpoint for non-fullscreen views */
+@media screen and (max-width: 992px) {
+    
+    /* Make the table more responsive */
+    .data-table-container table {
+        table-layout: auto;
+    }
+    
+    /* Hide the Aksi header */
+    th:nth-child(6) {
+        display: none;
+    }
+    
+    /* Hide the Aksi column cells */
+    td:nth-child(6) {
+        display: none;
+    }
+    
+    /* Add action buttons as a row beneath each data row */
+    tr.action-row {
+        display: table-row;
+        background-color: #f9f9f9;
+    }
+    
+    tr.action-row td {
+        padding: 8px 15px 12px;
+        text-align: right;
+        border-bottom: 2px solid #eee;
+    }
+    
+    /* Ensure all columns take appropriate width */
+    th:nth-child(1), td:nth-child(1) { width: 8%; } /* No column */
+    th:nth-child(2), td:nth-child(2) { width: 20%; } /* Nama Pelapor */
+    th:nth-child(3), td:nth-child(3) { width: 20%; } /* Kategori */
+    th:nth-child(4), td:nth-child(4) { width: 37%; } /* Deskripsi - wider */
+    th:nth-child(5), td:nth-child(5) { width: 15%; } /* Tanggal */
+    
+    /* Adjust column widths on smaller screens */
+    @media screen and (max-width: 768px) {
+        th:nth-child(1), td:nth-child(1) { width: 10%; } /* No column */
+        th:nth-child(2), td:nth-child(2) { width: 25%; } /* Nama Pelapor */
+        th:nth-child(3), td:nth-child(3) { width: 25%; } /* Kategori */
+        th:nth-child(4), td:nth-child(4) { width: 25%; } /* Deskripsi */
+        th:nth-child(5), td:nth-child(5) { width: 15%; } /* Tanggal */
+    }
+    
+    /* Make description text wrap better on smaller screens */
+    td:nth-child(4) {
+        word-break: break-word;
+        max-width: none;
+    }
+    
+    /* Style for the action buttons in the new row */
+    .action-buttons-responsive {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+    }
+}
+
+/* For extremely small screens, improve readability further */
+@media screen and (max-width: 480px) {
+    /* Make the table columns stack for better mobile view */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+    
+    /* Hide table headers */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    /* Style for each row to look like a card */
+    tbody tr {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    /* Style for each cell to display as key-value pair */
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 40%;
+        text-align: left;
+    }
+    
+    /* Create pseudo-element for column headers */
+    td:before {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 35%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+    }
+    
+    /* Define content for each header */
+    td:nth-of-type(1):before { content: "No"; }
+    td:nth-of-type(2):before { content: "Nama Pelapor"; }
+    td:nth-of-type(3):before { content: "Kategori"; }
+    td:nth-of-type(4):before { content: "Deskripsi"; }
+    td:nth-of-type(5):before { content: "Tanggal"; }
+    
+    /* Action row should span full width */
+    tr.action-row td {
+        padding: 10px;
+        text-align: center;
+    }
+    
+    /* Center the buttons on small screens */
+    .action-buttons-responsive {
+        justify-content: center;
+    }
+    
+    /* Ensure buttons are large enough for touch */
+    .btn {
+        padding: 8px 16px;
+        margin: 2px;
+    }
+}
