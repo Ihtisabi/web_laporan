@@ -47,7 +47,7 @@
                 <div class="menu-text">Laporan</div>
             </a>
             
-            <a href="#" class="menu-item">
+            <a href="#" class="menu-item" id="logout-link">
                 <div class="menu-icon">
                     <i class="fas fa-sign-out-alt"></i>
                 </div>
@@ -131,6 +131,21 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="logoutModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Konfirmasi Logout</h2>
+            </div>
+            <div class="modal-body">
+                <p style="text-align: center; margin-bottom: 20px;">Apakah Anda yakin ingin keluar?</p>
+                <div class="modal-buttons">
+                    <button id="cancelLogoutBtn" class="btn-secondary">Kembali</button>
+                    <button id="confirmLogoutBtn" class="btn-danger">Logout</button>
+                </div>
             </div>
         </div>
     </div>

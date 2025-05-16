@@ -70,7 +70,7 @@ body {
     display: flex;
     flex: 1;
     position: relative;
-    min-height: calc(100vh - 70px); /* Account for header height */
+    min-height: auto; /* Account for header height */
 }
 
 /* Sidebar Styles */
@@ -83,7 +83,7 @@ body {
     flex-direction: column;
     transition: transform 0.3s ease;
     z-index: 90;
-    min-height: calc(100vh - 70px); /* Full viewport height minus header */
+    min-height: auto; /* Full viewport height minus header */
     position: sticky;
     top: 70px; /* Below header */
 }
@@ -131,7 +131,7 @@ body {
     flex: 1;
     padding: 20px;
     transition: margin-left 0.3s ease;
-    min-height: calc(100vh - 70px); /* Ensure full height */
+    min-height: auto; /* Ensure full height */
 }
 
 /* Stats Cards */

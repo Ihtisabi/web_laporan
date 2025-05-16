@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const sidebar = document.querySelector('.sidebar');
     const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
     
     // Toggle sidebar on hamburger menu click
     menuToggle.addEventListener('click', function() {
@@ -72,6 +73,159 @@ document.addEventListener('DOMContentLoaded', function() {
         subtree: true
     });
 
+    // Modal elements
+    const detailModal = document.getElementById('detailModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const logoutModal = document.getElementById('logoutModal');
+    const closeDetailBtn = document.getElementById('closeDetailBtn');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+
+    // Connect logout button to the modal
+    const logoutLink = document.getElementById('logout-link');
+    
+    // Connect logout button to the modal
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default navigation
+            openLogoutModal();
+        });
+    }
+
+    // Function to open detail modal
+    function openDetailModal(rowData) {
+        // Populate modal with data
+        document.getElementById('nama').value = rowData.nama;
+        document.getElementById('tanggal').value = rowData.tanggal;
+        document.getElementById('kategori').value = rowData.kategori;
+        document.querySelector('.desc-container p').textContent = rowData.deskripsi;
+        
+        // Show the modal
+        detailModal.style.display = 'block';
+        
+        // Prevent body scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Function to close detail modal
+    function closeDetailModal() {
+        detailModal.style.display = 'none';
+        
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Function to open delete confirmation modal
+    function openDeleteModal(rowId) {
+        // Store the row ID for deletion (could be used later with AJAX)
+        deleteModal.dataset.rowId = rowId;
+        
+        // Show the modal
+        deleteModal.style.display = 'block';
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Function to close delete modal
+    function closeDeleteModal() {
+        deleteModal.style.display = 'none';
+        
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+
+    // Function to open logout confirmation modal
+    function openLogoutModal() {
+        // Show the modal
+        logoutModal.style.display = 'block';
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Function to close logout modal
+    function closeLogoutModal() {
+        logoutModal.style.display = 'none';
+        
+        // Restore body scrolling
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Handle logout confirmation
+    if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener('click', function() {
+            // Redirect to login page or call logout API
+            window.location.href = 'login.html'; // Change this to your login page URL
+        });
+    }
+    
+    // Handle logout cancellation
+    if (cancelLogoutBtn) {
+        cancelLogoutBtn.addEventListener('click', closeLogoutModal);
+    }
+    
+    // Handle status update (accept button)
+    function handleStatusUpdate(rowId) {
+        // Find all buttons with the same row ID data attribute
+        const statusButtons = document.querySelectorAll(`.btn-accept[data-row-id="${rowId}"]`);
+        
+        // Update all buttons for this row
+        statusButtons.forEach(button => {
+            if (button.textContent === "Menunggu") {
+                button.textContent = "Diterima";
+                button.classList.remove('btn-waiting');
+                button.classList.add('btn-accepted');
+            } else {
+                button.textContent = "Menunggu";
+                button.classList.remove('btn-accepted');
+                button.classList.add('btn-waiting');
+            }
+        });
+        
+        // Here you would typically make an AJAX call to update the server
+        console.log(`Status updated for row ${rowId} to ${statusButtons[0].textContent}`);
+    }
+    
+    // Handle row deletion
+    function handleDelete(rowId) {
+        // Find the row with the matching ID
+        const rows = document.querySelectorAll('tbody tr');
+        let rowToDelete = null;
+        
+        rows.forEach(row => {
+            const firstCell = row.querySelector('td:first-child');
+            if (firstCell && firstCell.textContent === rowId) {
+                rowToDelete = row;
+            }
+        });
+        
+        if (rowToDelete) {
+            // Check if there's an action row that follows
+            const nextRow = rowToDelete.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('action-row')) {
+                nextRow.remove();
+            }
+            
+            // Remove the row
+            rowToDelete.remove();
+            
+            // Here you would typically make an AJAX call to delete from the server
+            console.log(`Row ${rowId} deleted`);
+            
+            // Update pagination if needed
+            if (typeof displayRows === 'function') {
+                displayRows();
+            }
+        }
+        
+        // Close the modal
+        closeDeleteModal();
+    }
+
     // Function to handle responsive table behavior
     function setupResponsiveTable() {
         const tableRows = document.querySelectorAll('.data-table-container tbody tr:not(.action-row)');
@@ -82,12 +236,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // For each data row, create a corresponding action row
         tableRows.forEach(row => {
+            // Get the row ID (for data-row-id attributes)
+            const rowId = row.querySelector('td:first-child').textContent;
+            
             // Get the action buttons from the last cell
             const actionCell = row.querySelector('td:last-child');
             if (!actionCell) return; // Skip if no action cell
             
             const actionButtons = actionCell.querySelector('.action-buttons');
             if (!actionButtons) return; // Skip if no buttons
+            
+            // Add data-row-id to each original button
+            const originalButtons = actionButtons.querySelectorAll('button');
+            originalButtons.forEach(button => {
+                button.setAttribute('data-row-id', rowId);
+            });
             
             // Create a new row for actions
             const actionRow = document.createElement('tr');
@@ -105,6 +268,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clone the buttons
             buttonContainer.innerHTML = actionButtons.innerHTML;
             
+            // Add data-row-id to each cloned button
+            const clonedButtons = buttonContainer.querySelectorAll('button');
+            clonedButtons.forEach(button => {
+                button.setAttribute('data-row-id', rowId);
+            });
+            
             // Add the buttons to the cell
             actionCell2.appendChild(buttonContainer);
             
@@ -116,7 +285,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Run once on page load
+    // Add event delegation to the whole table
+    document.querySelector('.data-table-container').addEventListener('click', function(event) {
+        // Check if a button was clicked
+        const button = event.target.closest('button');
+        
+        if (!button) return; // Not a button click
+        
+        // Get the row ID from the button
+        const rowId = button.getAttribute('data-row-id');
+        if (!rowId) return; // No row ID data attribute
+        
+        // Detail button
+        if (button.classList.contains('btn-detail')) {
+            // Find the row by directly searching for a cell with matching content
+            let row = null;
+            const allRows = document.querySelectorAll('.data-table-container tbody tr:not(.action-row)');
+            for (let i = 0; i < allRows.length; i++) {
+                const firstCell = allRows[i].querySelector('td:first-child');
+                if (firstCell && firstCell.textContent === rowId) {
+                    row = allRows[i];
+                    break;
+                }
+            }
+            
+            if (row) {
+                // Extract data from the row
+                const rowData = {
+                    nama: row.querySelector('td:nth-child(2)').textContent,
+                    kategori: row.querySelector('td:nth-child(3)').textContent,
+                    deskripsi: row.querySelector('td:nth-child(4)').textContent,
+                    tanggal: row.querySelector('td:nth-child(5)').textContent
+                };
+                
+                // Open the modal with this data
+                openDetailModal(rowData);
+            }
+        }
+        
+        // Accept button
+        else if (button.classList.contains('btn-accept')) {
+            handleStatusUpdate(rowId);
+        }
+        
+        // Delete button
+        else if (button.classList.contains('btn-delete')) {
+            openDeleteModal(rowId);
+        }
+    });
+    
+    // Setup responsive table
     setupResponsiveTable();
     
     // Also run when window is resized
@@ -133,6 +351,47 @@ document.addEventListener('DOMContentLoaded', function() {
         actionCells.forEach(cell => {
             cell.style.display = window.innerWidth <= 992 ? 'none' : 'table-cell';
         });
+    });
+    
+    // Close modals with close buttons
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeDetailModal);
+    }
+    
+    if (closeDetailBtn) {
+        closeDetailBtn.addEventListener('click', closeDetailModal);
+    }
+    
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+    }
+    
+    // Handle delete confirmation
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function() {
+            const rowId = deleteModal.dataset.rowId;
+            handleDelete(rowId);
+        });
+    }
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === detailModal) {
+            closeDetailModal();
+        } else if (event.target === deleteModal) {
+            closeDeleteModal();
+        } else if (event.target === logoutModal) {
+            closeLogoutModal();
+        }
+    });
+    
+    // Handle escape key to close modals
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeDetailModal();
+            closeDeleteModal();
+            closeLogoutModal();
+        }
     });
     
     // Pagination functionality
@@ -236,197 +495,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize pagination
     displayRows();
-});
-
-// Modal functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Modal elements
-    const detailModal = document.getElementById('detailModal');
-    const deleteModal = document.getElementById('deleteModal');
-    const closeDetailBtn = document.getElementById('closeDetailBtn');
-    const closeModalBtn = document.querySelector('.close-modal');
-    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-    
-    // Get all detail, accept and delete buttons
-    const detailButtons = document.querySelectorAll('.btn-detail');
-    const acceptButtons = document.querySelectorAll('.btn-accept');
-    const deleteButtons = document.querySelectorAll('.btn-delete');
-    
-    // Function to open detail modal
-    function openDetailModal(rowData) {
-        // Populate modal with data
-        document.getElementById('nama').value = rowData.nama;
-        document.getElementById('tanggal').value = rowData.tanggal;
-        document.getElementById('kategori').value = rowData.kategori;
-        document.querySelector('.desc-container p').textContent = rowData.deskripsi;
-        
-        // Show the modal
-        detailModal.style.display = 'block';
-        
-        // Prevent body scrolling when modal is open
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Function to close detail modal
-    function closeDetailModal() {
-        detailModal.style.display = 'none';
-        
-        // Restore body scrolling
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Function to open delete confirmation modal
-    function openDeleteModal(rowId) {
-        // Store the row ID for deletion (could be used later with AJAX)
-        deleteModal.dataset.rowId = rowId;
-        
-        // Show the modal
-        deleteModal.style.display = 'block';
-        
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Function to close delete modal
-    function closeDeleteModal() {
-        deleteModal.style.display = 'none';
-        
-        // Restore body scrolling
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Handle status update (accept button)
-    function handleStatusUpdate(rowElement) {
-        // Get the row data
-        const rowId = rowElement.querySelector('td:first-child').textContent;
-        const statusButton = rowElement.querySelector('.btn-accept');
-        
-        // Toggle button text and classes
-        if (statusButton.textContent === "Menunggu") {
-            statusButton.textContent = "Diterima";
-            statusButton.classList.remove('btn-waiting');
-            statusButton.classList.add('btn-accepted');
-        } else {
-            statusButton.textContent = "Menunggu";
-            statusButton.classList.remove('btn-accepted');
-            statusButton.classList.add('btn-waiting');
-        }
-        
-        // Here you would typically make an AJAX call to update the server
-        console.log(`Status updated for row ${rowId} to ${statusButton.textContent}`);
-        
-        // You can add logic to send the status update to the server
-        // Example: sendStatusUpdate(rowId, statusButton.textContent === "Diterima");
-    }
-    
-    // Handle row deletion
-    function handleDelete(rowId) {
-        // Find the row with the matching ID
-        const rows = document.querySelectorAll('tbody tr');
-        let rowToDelete = null;
-        
-        rows.forEach(row => {
-            const id = row.querySelector('td:first-child').textContent;
-            if (id === rowId) {
-                rowToDelete = row;
-            }
-        });
-        
-        if (rowToDelete) {
-            // Check if there's an action row that follows
-            const nextRow = rowToDelete.nextElementSibling;
-            if (nextRow && nextRow.classList.contains('action-row')) {
-                nextRow.remove();
-            }
-            
-            // Remove the row
-            rowToDelete.remove();
-            
-            // Here you would typically make an AJAX call to delete from the server
-            console.log(`Row ${rowId} deleted`);
-            
-            // Update pagination if needed
-            if (typeof displayRows === 'function') {
-                displayRows();
-            }
-        }
-        
-        // Close the modal
-        closeDeleteModal();
-    }
-    
-    // Add event listeners to all detail buttons
-    detailButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Get the parent row
-            const row = this.closest('tr');
-            
-            // Extract data from the row
-            const rowData = {
-                nama: row.querySelector('td:nth-child(2)').textContent,
-                kategori: row.querySelector('td:nth-child(3)').textContent,
-                deskripsi: row.querySelector('td:nth-child(4)').textContent,
-                tanggal: row.querySelector('td:nth-child(5)').textContent
-            };
-            
-            // Open the modal with this data
-            openDetailModal(rowData);
-        });
-    });
-    
-    // Add event listeners to all accept buttons
-    acceptButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            handleStatusUpdate(row);
-        });
-    });
-    
-    // Add event listeners to all delete buttons
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const rowId = row.querySelector('td:first-child').textContent;
-            openDeleteModal(rowId);
-        });
-    });
-    
-    // Close modals with close buttons
-    if (closeModalBtn) {
-        closeModalBtn.addEventListener('click', closeDetailModal);
-    }
-    
-    if (closeDetailBtn) {
-        closeDetailBtn.addEventListener('click', closeDetailModal);
-    }
-    
-    if (cancelDeleteBtn) {
-        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
-    }
-    
-    // Handle delete confirmation
-    if (confirmDeleteBtn) {
-        confirmDeleteBtn.addEventListener('click', function() {
-            const rowId = deleteModal.dataset.rowId;
-            handleDelete(rowId);
-        });
-    }
-    
-    // Close modals when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === detailModal) {
-            closeDetailModal();
-        } else if (event.target === deleteModal) {
-            closeDeleteModal();
-        }
-    });
-    
-    // Handle escape key to close modals
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeDetailModal();
-            closeDeleteModal();
-        }
-    });
 });
