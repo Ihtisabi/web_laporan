@@ -125,3 +125,42 @@ function toggleModal(modalId, show) {
         modal.classList.remove('active');
     }
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const profileIcon = document.querySelector('.user-info .avatar');
+    const profilePopup = document.getElementById('profilePopup');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const confirmModal = document.getElementById('confirmLogoutModal');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+
+    // Toggle popup saat klik avatar
+    profileIcon.addEventListener('click', (e) => {
+        profilePopup.classList.toggle('hidden');
+    });
+
+    // Klik logout → tampilkan modal konfirmasi
+    logoutBtn.addEventListener('click', () => {
+        profilePopup.classList.add('hidden');
+        confirmModal.classList.remove('hidden');
+    });
+
+    // Tombol "Ya" → arahkan ke login.html
+    confirmYes.addEventListener('click', () => {
+        window.location.href = 'loginSignup.html';
+    });
+
+    // Tombol "Tidak" → tutup modal
+    confirmNo.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+    });
+
+    // Klik di luar popup → tutup popup
+    window.addEventListener('click', (e) => {
+        if (!profilePopup.contains(e.target) && !profileIcon.contains(e.target)) {
+            profilePopup.classList.add('hidden');
+        }
+    });
+
+});

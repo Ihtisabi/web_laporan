@@ -230,3 +230,100 @@ main {
     width: 100vw;
     padding: 0;
 }
+
+/* PROFILE POPUP */
+.profile-popup {
+    position: absolute;
+    top: 60px;
+    right: 40px;
+    width: 220px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    padding: 20px;
+    z-index: 999;
+}
+
+.profile-popup img.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-popup h3 {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+.profile-popup p {
+    font-size: 0.9rem;
+    color: gray;
+    margin-bottom: 15px;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.logout-btn:hover {
+    color: var(--primary-color);
+}
+
+/* MODAL KONFIRMASI */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content.center {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 300px;
+    width: 90%;
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.btn-confirm, .btn-cancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-confirm {
+    background-color: #266CA9;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #ddd;
+}
+
+/* Utility */
+.hidden {
+    display: none;
+}
+

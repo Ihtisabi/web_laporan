@@ -103,6 +103,25 @@
         </div>
     </main>
 
+    <!-- Popup Profile -->
+    <div id="profilePopup" class="profile-popup hidden">
+        <img src="assets/img/avatar.png" alt="Avatar" class="profile-avatar">
+        <h3>User Name</h3>
+        <p>user@gmail.com</p>
+        <button id="logoutBtn" class="logout-btn">Log out</button>
+    </div>
+
+    <!-- Modal Konfirmasi Logout -->
+    <div id="confirmLogoutModal" class="modal hidden">
+        <div class="modal-content center">
+            <h2>Anda yakin ingin keluar?</h2>
+            <div class="modal-actions">
+                <button id="confirmYes" class="btn-confirm">Ya</button>
+                <button id="confirmNo" class="btn-cancel">Tidak</button>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
     <script src="assets/js/riwayat.js"></script>
 </body>

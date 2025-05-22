@@ -56,12 +56,9 @@ loginForm.addEventListener('submit', function(e) {
         alert('Please fill in all fields');
         return;
     }
-    
-    // Here you would typically make an API call to your backend for authentication
-    console.log('Login attempt with:', { email });
-    
-    // For demo purposes
-    alert(`Login attempt with email: ${email}`);
+
+    // Arahkan ke dashboard
+    window.location.href = 'dashboard.html';
 });
 
 signupForm.addEventListener('submit', function(e) {
@@ -82,6 +79,10 @@ signupForm.addEventListener('submit', function(e) {
         alert('Passwords do not match');
         return;
     }
+
+    localStorage.setItem('registeredUserName', name);
+    localStorage.setItem('registeredUserEmail', email);
+
     
     // Here you would typically make an API call to your backend for registration
     console.log('Registration attempt with:', { name, email });
