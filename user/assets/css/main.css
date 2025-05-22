@@ -42,7 +42,6 @@ h1 {
     font-size: 1.8rem;
     color: var(--primary-color);
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
 }
 

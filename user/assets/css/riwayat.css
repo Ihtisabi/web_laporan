@@ -1,19 +1,46 @@
 .history-container {
     padding: 20px 0;
 }
+.history-container h1 {
+    padding-left: 35px;
+    color: #266CA9;
+    font-family: Poppins;
+    font-size: 1.8rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.history-container h1::after {
+    content: '';
+    display: block;
+    width: 265px;
+    height: 2px;
+    background-color: #82CBFF;
+}
 
 .history-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .history-item {
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    border-radius: 15px;
+    background: #FFF;
+    box-shadow: 0px -4px 42px 0px rgba(0, 0, 0, 0.10);
     padding: 20px;
     display: flex;
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
 }
 
 .history-image {
