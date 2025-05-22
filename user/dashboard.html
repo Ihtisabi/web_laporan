@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistem Pelaporan Fasilitas</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <button class="menu-toggle">
+                <div class="menu-icon"></div>
+            </button>
+            <a href="dashboard.html" class="active-nav">Dashboard</a>
+            <a href="lapor.html">Lapor</a>
+            <a href="riwayatlaporan.html">Riwayat Laporan</a>
+        </div>
+        <div class="user-info">
+            <span>User</span>
+            <img src="assets/img/avatar.png" alt="User Avatar" class="avatar">
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <div class="welcome-banner">
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide active">
+                        <img src="assets/img/fotohome1.jpg" alt="Classroom">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/img/fotohome2.jpg" alt="Facility 1">
+                    </div>
+                    <div class="slide">
+                        <img src="assets/img/fotohome3.jpg" alt="Facility 2">
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <div class="slider-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="welcome-content">
+                <h1>Selamat Datang, User!</h1>
+                <p>Website Pelaporan Fasilitas</p>
+            </div>
+        </div>
+
+        <section class="latest-reports">
+            <h2>Pelaporan Terbaru</h2>
+            
+                <div class="report-card">
+                    <div class="reporter">
+                        <img src="assets/img/avatar.png" alt="Reporter Avatar" class="avatar">
+                        <div class="reporter-info">
+                            <h3>Unknown</h3>
+                            <span>11 April 2025</span>
+                        </div>
+                    </div>
+                    <div class="report-content">
+                        <img src="assets/img/report-image.jpg" alt="Report Image" class="report-image">
+                        <p>Galon di lantai 4 habis!</p>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <div class="reporter">
+                        <img src="assets/img/avatar.png" alt="Reporter Avatar" class="avatar">
+                        <div class="reporter-info">
+                            <h3>Unknown</h3>
+                            <span>11 April 2025</span>
+                        </div>
+                    </div>
+                    <div class="report-content">
+                        <img src="assets/img/report-image.jpg" alt="Report Image" class="report-image">
+                        <p>Galon di lantai 4 habis!</p>
+                    </div>
+                </div>
+
+        </section>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

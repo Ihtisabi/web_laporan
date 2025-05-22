@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Laporan - Sistem Pelaporan Fasilitas</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/lapor.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <button class="menu-toggle">
+                <div class="menu-icon"></div>
+            </button>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="lapor.html">Lapor</a>
+            <a href="riwayatlaporan.html">Riwayat Laporan</a>
+        </div>
+        <div class="user-info">
+            <span>User</span>
+            <img src="assets/img/avatar.png" alt="User Avatar" class="avatar">
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="report-container">
+        <h1>Buat Laporan</h1>
+        
+        <div class="report-form-container">
+            <form id="reportForm" class="report-form">
+                <div class="form-group">
+                    <label for="reporterName">Nama Pelapor</label>
+                    <input type="text" id="reporterName" name="reporterName" value="User" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reportDate">Tanggal</label>
+                    <input type="date" id="reportDate" name="reportDate" placeholder="mm/dd/yyyy">
+                </div>
+                
+                <div class="form-group">
+                    <label for="category">Kategori</label>
+                    <div class="select-wrapper">
+                        <select id="category" name="category">
+                            <option value="" selected disabled>Pilih kategori</option>
+                            <option value="ringan">Ringan</option>
+                            <option value="sedang">Sedang</option>
+                            <option value="berat">Berat</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mediaUpload">Gambar/Video</label>
+                    <div class="file-upload">
+                        <input type="file" id="mediaUpload" name="mediaUpload" accept="image/*,video/mp4">
+                        <button type="button" class="file-upload-btn">Choose Files</button>
+                    </div>
+                    <div class="file-info">
+                        <p>Accepted file types:</p>
+                        <p>Image files (.jpg, .jpeg, .png, .gif, .webp, .bmp) Max: 10 MB</p>
+                        <p>Video files (.mp4) Max: 40 MB</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Deskripsi</label>
+                    <textarea id="description" name="description" placeholder="Deskripsi"></textarea>
+                    <div class="char-count"><span id="charCount">0</span>/110 karakter</div>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="submit-button">Kirim Laporan</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <h2>Laporan Berhasil Dibuat!</h2>
+            <button id="okButton" class="ok-button">Oke</button>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/lapor.js"></script>
+</body>
+</html>
